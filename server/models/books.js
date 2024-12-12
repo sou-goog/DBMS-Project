@@ -1,3 +1,5 @@
+// TODO1 - Add a attribute to store cover image for book
+
 module.exports = (sequelize, DataTypes) => {
 
     const Books = sequelize.define("Books", {

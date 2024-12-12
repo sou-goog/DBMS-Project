@@ -1,20 +1,19 @@
 const express = require('express');
-const router = express.Router();
+const bcrypt = require('bcrypt');       // For password hashing
+const router = express.Router();        // For routes*
 const { Users } = require('../models');
 
 /* USER ONBOARDING */
 
-// GET req for 'localhost:3001/signup'
+// for localhost:3001/users
 router.get('/', async (req, res) => {
     const listOfAllUsers = await Users.findAll();
     res.json(listOfAllUsers);
-    //res.send("Signup page is still being constructed.");
 });
 
 
-// POST req that deals with the form and creates new users
-router.post('/', async (req, res) => {
-    // Extract data from the post request
+/* USER SIGNUP */
+router.post('/signup', async (req, res) => {
     const { email, password } = req.body;
 
     try {
@@ -29,7 +28,12 @@ router.post('/', async (req, res) => {
         }
 
         // If no existing user, create a new user
-        const newUser = await Users.create({ email, password });
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = await Users.create({
+             email: email,
+             password: hashedPassword
+            });
+
         res.status(201).json(newUser);
      } catch (error) {
         console.error("Error while creating user: ", error);

@@ -1,0 +1,19 @@
+# Dependency directories
+node_modules/
+
+# Environment files
+.env
+.env.local
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Build directories
+build/
+dist/
+
+# IDE specific files
+
+# Temporary files

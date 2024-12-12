@@ -15,10 +15,13 @@ const db = require('./models');
 // All requests are written in file './routes/Users'
 // all requests originating from 'localhost:3001/signup' are automatically routed to /server/routes/Users.js 
 const userRouter = require('./routes/Users');
-app.use('/signup', userRouter);
+app.use('/users', userRouter);
 
 const bookRouter = require('./routes/Books');
 app.use('/books', bookRouter);
+
+const searchRouter = require('./routes/Search');
+app.use('/search', searchRouter);
 
 db.sequelize.sync(/*{alter: true}*/).then(() => {
     app.listen(3001, () => {

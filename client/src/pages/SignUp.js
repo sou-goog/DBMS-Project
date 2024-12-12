@@ -25,7 +25,7 @@ function SignUp() {
     // Form Submission Handler - POST to database table
     const onSubmit = (data, {setSubmitting, setFieldError }) => {
             // Post to express API endpoint for signup of new users
-            axios.post("http://localhost:3001/signup", data)
+            axios.post("http://localhost:3001/users/signup", data)
                 .then((response) => {
                     console.log("User created: ", response.data);
                     alert("Account created successfully!")

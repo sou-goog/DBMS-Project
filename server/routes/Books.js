@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const { Books, Authors, Publishers } = require('../models');
+const { Op } = require('sequelize');
 
 // GET request for 'localhost:3001/'
 router.get('/', async (req, res) => {
     try {
         const listOfAllBooks = await Books.findAll({
-            // Include associated Authors and Publishers models
             include: [
                 {
                     model: Authors,
@@ -18,9 +18,6 @@ router.get('/', async (req, res) => {
                 }
             ]
         });
-
-        //res.json(listOfAllBooks);
-
 
         // Transform the results to create a clean, readable response
         const transformedBooks = listOfAllBooks.map(book => ({
@@ -47,5 +44,36 @@ router.get('/', async (req, res) => {
         });
     }
 });
+
+
+
+// GET Request for upto 60 most popular books
+router.get('/popular', async (req, res) => {
+    try {
+        const popularBooks = await Books.findAll({
+            attributes: ['bookID', 'bookTitle', 'rating'],
+            where: {
+                rating: {
+                    [Op.gte]: 4
+                }
+            },
+            include: [ {model: Authors, attributes: ['authorName']}],
+            order: [['rating', 'DESC']],
+            limit: 60
+        });
+
+        // Formatting Data
+        res.json(popularBooks.map(book => ({
+            bookID: book.bookID,
+            bookTitle: book.bookTitle,
+            authorName: book.Author.authorName,
+            rating: book.rating
+        })));
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({message: 'Failed to fetch popular books.'})
+    }
+})
 
 module.exports = router;
