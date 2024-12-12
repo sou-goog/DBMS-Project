@@ -1,14 +1,12 @@
-// const { STRING, INTEGER, TEXT } = require("sequelize");
-
 module.exports = (sequelize, DataTypes) => {
     const Users = sequelize.define("Users", {
-        userID: {
+        userID: {   // Primary Key
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true,
             autoIncrement: true
         },
-        email: {
+        email: {    // Unique
             type: DataTypes.STRING(255),
             allowNull: false,
             unique: true
@@ -17,14 +15,6 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING(255),
             allowNull: false
         },
-        firstName: {
-            type: DataTypes.STRING(100),
-            allowNull: true
-        },
-        lastName: {
-            type: DataTypes.STRING(100),
-            allowNull: true
-        },
         phone: {
             type: DataTypes.STRING(15),
             allowNull: true,
@@ -32,6 +22,14 @@ module.exports = (sequelize, DataTypes) => {
         },
         address: {
             type: DataTypes.TEXT,
+            allowNull: true
+        },
+        firstName: {
+            type: DataTypes.STRING(100),
+            allowNull: true
+        },
+        lastName: {
+            type: DataTypes.STRING(100),
             allowNull: true
         }
     });

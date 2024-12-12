@@ -17,17 +17,16 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING(20)
         }
 
-    }, {
-        timestamps: false
     });
 
-
+    // Associate Method
     Authors.associate = (models) => {
+        // Associations with Books
         Authors.hasMany(models.Books, {
             foreignKey: 'authorID'
         });
     };
 
-    
+
     return Authors;
 };

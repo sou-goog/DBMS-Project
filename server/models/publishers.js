@@ -16,12 +16,11 @@ module.exports = (sequelize, DataTypes) => {
         address: {
             type: DataTypes.TEXT
         }
-    }, {
-        timestamps: false
     });
 
-
+    // Associate Method
     Publishers.associate = (models) => {
+        // Association with Books
         Publishers.hasMany(models.Books, {
             foreignKey: 'publisherID'
         });

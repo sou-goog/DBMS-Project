@@ -1,4 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
+
     const Books = sequelize.define("Books", {
         bookID: {
             type: DataTypes.INTEGER,
@@ -9,13 +10,6 @@ module.exports = (sequelize, DataTypes) => {
         bookTitle: {
             type: DataTypes.STRING(50),
             allowNull: false,
-        },
-        authorID: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: "Authors", // Name of the table
-                key: "authorID", // Column name in the Authors table
-            },
         },
         bookGenre: {
             type: DataTypes.STRING(20),
@@ -37,23 +31,30 @@ module.exports = (sequelize, DataTypes) => {
                 min: 0, // Check stock >= 0
             },
         },
+        rating: {
+            type: DataTypes.FLOAT,
+            allowNull: false,
+            defaultValue: 0.0,
+        },
+        authorID: {
+            type: DataTypes.INTEGER,
+            references: {
+                model: "Authors", // Name of the table
+                key: "authorID", // Column name in the Authors table
+            },
+        },
         publisherID: {
             type: DataTypes.INTEGER,
             references: {
                 model: "Publishers", // Name of the table
                 key: "publisherID", // Column name in the Publishers table
             },
-        },
-        rating: {
-            type: DataTypes.FLOAT,
-            allowNull: false,
-            defaultValue: 0.0,
-        },
+        }
     });
 
     // Add this associate method
     Books.associate = (models) => {
-        // Define associations here
+        // Associations with Authors and Publishers
         Books.belongsTo(models.Authors, {
             foreignKey: 'authorID',
 
