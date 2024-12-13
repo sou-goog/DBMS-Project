@@ -15,6 +15,14 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING(255),
             allowNull: false
         },
+        userType: {
+            type: DataTypes.STRING(5), // 'admin' or 'euser'
+            allowNull: false,
+            defaultValue: 'euser',
+            validate: {
+                isIn: [['admin', 'euser']]
+            }
+        },
         phone: {
             type: DataTypes.STRING(15),
             allowNull: true,
@@ -32,7 +40,33 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING(100),
             allowNull: true
         }
-    });
+    }, {
+        hooks: {
+            afterCreate: async (user, options) => {
+                const {Carts} = sequelize.models;
+                
+                await Carts.create({
+                    userID: user.userID
+                }, options)
+            }
+        }
+    })
+
+    hooks: {
+
+    }
+
+    Users.associate = (models) => {
+        Users.hasOne(models.Carts, {
+            foreignKey: 'userID',
+            onDelelte: 'CASCADE'
+        });
+
+        Users.hasMany(models.Orders, {
+            foreignKey: 'userID',
+            // onDelelte: ''
+        })
+    }
 
     return Users;
 };

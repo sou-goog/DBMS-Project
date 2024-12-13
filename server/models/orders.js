@@ -13,29 +13,38 @@ module.exports = (sequelize, DataTypes) => {
                 model: "Users", // Assuming a Users table exists
                 key: "userID"
             },
-            onDelete: "CASCADE"
+            //onDelete: "RESTRICT"
         },
         totalAmount: {
             type: DataTypes.DECIMAL(10, 2),
             allowNull: false,
             defaultValue: 0.0
+        },
+        orderStatus: {
+            type: DataTypes.STRING(10),
+            allowNull: false,
+            default: "INCOMPLETE",
+            validate: {
+                isIn: [["INCOMPLETE", "COMPLETE"]]
+            }
         }
     });
 
     Orders.associate = (models) => {
         Orders.belongsTo(models.Users, {
             foreignKey: 'userID',
-            onDelete: 'CASCADE'
+            onDelete: 'RESTRICT'
+
         });
 
         Orders.hasMany(models.OrderDetails, {
-            foreignKey: 'orderID',
+            foreignKey: 'orderDetailID',
             onDelete: 'CASCADE'
         });
     };
 
     // Hook to calculate totalAmount before updating or creating an order
-    Orders.addHook("beforeSave", async (order, options) => {
+    Orders.addHook("beforeUpdate", async (order, options) => {
         const OrderDetails = sequelize.models.OrderDetails;
 
         const orderDetails = await OrderDetails.findAll({

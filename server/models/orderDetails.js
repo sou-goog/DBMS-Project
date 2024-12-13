@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
                 model: "Books", // Table name being referenced
                 key: "bookID"
             },
-            onDelete: "CASCADE"
+            // onDelete: "SET NULL"
         },
         quantity: {
             type: DataTypes.INTEGER,
@@ -43,12 +43,12 @@ module.exports = (sequelize, DataTypes) => {
     OrderDetails.associate = (models) => {
         OrderDetails.belongsTo(models.Orders, {
             foreignKey: 'orderID',
-            onDelete: 'CASCADE'
+            // onDelete: 'CASCADE'
         });
 
         OrderDetails.belongsTo(models.Books, {
             foreignKey: 'bookID',
-            onDelete: 'CASCADE'
+            // onDelete: 'CASCADE'
         });
     };
 

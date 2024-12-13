@@ -57,7 +57,7 @@ module.exports = (sequelize, DataTypes) => {
 
     // Hook to set Price before creation or update
     CartItems.addHook('beforeSave', async (cartItem, options) => {
-        const Books = sequelize.model.Books;
+        const Books = sequelize.models.Books;
  
         // Fetch the book to get its price
         const book = await Books.findByPk(cartItem.bookID);

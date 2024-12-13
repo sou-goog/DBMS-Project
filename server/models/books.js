@@ -59,11 +59,13 @@ module.exports = (sequelize, DataTypes) => {
         // Associations with Authors and Publishers
         Books.belongsTo(models.Authors, {
             foreignKey: 'authorID',
+            onDelete: 'SET NULL'
 
         });
 
         Books.belongsTo(models.Publishers, {
             foreignKey: 'publisherID',
+            onDelete: 'SET NULL'
         });
     };
 
