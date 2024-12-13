@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "root",
-    "password": "tatadottSQLadmin@21",
+    "password": "dbms1234",
     "database": "BookShopDB",
     "host": "127.0.0.1",
     "dialect": "mysql"
